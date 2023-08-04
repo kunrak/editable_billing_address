@@ -1,9 +1,10 @@
-import { Edit, Save } from "@mui/icons-material";
-import { Box, Button, TextField, Typography } from "@mui/material"
+import { Edit } from "@mui/icons-material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 
 function BillingAddress() {
     const [isEditing, setIsEditing] = useState(false);
+    const [open, setOpen] = useState(false);
     // const [name, setName] = useState("John Doe");
     // const [address, setAddress] = useState("123 Main St");
     // const [city, setCity] = useState("Anytown");
@@ -46,8 +47,8 @@ function BillingAddress() {
                 <Typography variant="h6">Billing Address</Typography>
             </Box>
             {isEditing ? (
-                <Box display="flex" justifyContent="space-between" width="80%">
-                    <Box width="80%">
+                <Box width="80%">
+                    <Box width="100%">
                         <Box mb={2}>
                             <TextField
                                 label="Name"
@@ -64,34 +65,48 @@ function BillingAddress() {
                                 onChange={(e) => setAddress(e.target.value)}
                             />
                         </Box>
-                        <Box mb={2}>
+                        <Stack direction="row" spacing={3}>
                             <TextField
                                 label="City"
                                 fullWidth
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
                             />
-                        </Box>
-                        <Box mb={2}>
                             <TextField
                                 label="Zip Code"
                                 fullWidth
                                 value={zipCode}
                                 onChange={(e) => setZipCode(e.target.value)}
                             />
-                        </Box>
-                        <Box mb={2}>
                             <TextField
                                 label="Country"
                                 fullWidth
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}
                             />
-                        </Box>
+                        </Stack>
                     </Box>
-                    <Box>
-                        <Button onClick={handleSaveClick}>
-                            <Save />
+                    <Box display="flex" justifyContent="flex-end" mt={4}>
+                        <Button onClick={() => setOpen(true)} sx={{ mr: 2 }}>
+                            Cancel
+                        </Button>
+                        <Dialog
+                            open={open}
+                            onClose={() => setOpen(false)}
+                        >
+                            <DialogTitle>Are you sure?</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    There are unsaved changes. Are you sure you want to leave?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => setOpen(false)}>Cancel</Button>
+                                <Button autoFocus onClick={() => setOpen(false)}>Submit</Button>
+                            </DialogActions>
+                        </Dialog>
+                        <Button onClick={handleSaveClick} variant="contained">
+                            Save
                         </Button>
                     </Box>
                 </Box>
@@ -108,8 +123,9 @@ function BillingAddress() {
                         </Button>
                     </Box>
                 </Box>
-            )}
-        </Box>
+            )
+            }
+        </Box >
     )
 }
 
